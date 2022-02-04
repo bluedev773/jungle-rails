@@ -3,11 +3,32 @@
   <header class="page-header">
     <h1>Order #<%= @order.id %></h1>
   </header>
-
+  
   <div class="order-summary jumbotron">
-    <h4>Thank you for your order!</h4>
-  </div>
+    <h4>Thank you for your order <%= @order.email%>!</h4>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th colspan="2">Product</th>
+          <th>Unit Price</th>
+          <th>Quantity</th>
+          <th>Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @order.line_items.each do |item| %>
+          <%= render 'line_item', line_item: item, product: item.product %>
+        <% end %>
+      </tbody>
+    </table>
+    
+    <p class="mb-0" style="color: #35558a;">Payment summary</p>
+      <hr class="mt-2 mb-4" style="height: 0; background-color: transparent; opacity: .75; border-top: 2px dashed #9e9e9e;">
 
-  <%= link_to "Continue Shopping", root_path, class: 'btn btn-lg btn-primary' %>
+      <div class="d-flex justify-content-between">
+        <p class="fw-bold">Total</p>
+          <p class="fw-bold" style="color: #35558a;"><%= humanized_money_with_symbol @order.total%></p>
+      </div>
+  </div>
 
 </section>
